@@ -77,3 +77,60 @@ try {
 } catch (erro){
     console.log("Erro detectado: ", erro.message);
 }
+
+//5. Debounce
+//Crie function debounce(fn, delay) que receba uma função fn e um delay em ms, retornando uma nova função que só executa fn se não for chamada novamente dentro do intervalo.
+
+function debounce(fn, delay) {
+    let timer;
+    return function (...args){
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    }
+}
+const contar = debounce (() => console.log ("Feito!"), 1000);
+contar();
+contar();
+contar();
+setTimeout(() => contar(), 1500);
+
+//6. Memoization
+//Implemente function memoize(fn) que armazene em cache chamadas anteriores de fn (por argumentos), retornando resultados instantâneos em repetidas invocações.
+
+function memoize(fn){
+    const cache = {};
+    return function(...args){
+        const key = JSON.stringify(args)
+        if (cache[key]){
+            console.log("Retornando do cache!");
+            return cache[key];
+        }
+        const result = fn(...args);
+        cache [key] = result;
+        return result;
+    };
+}
+function fatorial(n){
+    if (n < 0) throw new Error("Número inválido!");
+    return n === 0 ? 1 : n * fatorial(n - 1);
+}
+const fatorialMemoizado = memoize(fatorial);
+console.log(fatorialMemoizado(5));
+console.log(fatorialMemoizado(5));
+
+//Seção 3: Arrays e Objetos Complexos
+
+//7. Mapeamento e Ordenação
+// Dado um array produtos = [{ nome, preco }, ...], crie uma função que retorne um novo array apenas com os nomes, ordenados por preço crescente, usando map, sort.
+const produtos = [
+    { nome: "Farinha de Trigo", preco: 4 },
+    { nome: "Ovos", preco: 20 },
+    { nome: "Açúcar", preco: 5 },
+    { nome: "Maçã", preco: 15 },
+]
+const produtosOrdenados = produtos.sort((a, b) => a.preco - b.preco);
+const nomesOrdenados = produtosOrdenados.map(produtos => produtos.nome);
+console.log(nomesOrdenados);
+
+//8. Agrupamento por Propriedade
+//Em vendas = [{ cliente, total }, ...], use reduce para gerar um objeto onde cada chave é um cliente e o valor é a soma de todos os seus total.
