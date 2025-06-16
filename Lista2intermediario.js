@@ -92,7 +92,7 @@ const contar = debounce (() => console.log ("Feito!"), 1000);
 contar();
 contar();
 contar();
-setTimeout(() => contar(), 1500);
+setTimeout(() => contar(), 1200);
 
 //6. Memoization
 //Implemente function memoize(fn) que armazene em cache chamadas anteriores de fn (por argumentos), retornando resultados instantâneos em repetidas invocações.
@@ -134,3 +134,39 @@ console.log(nomesOrdenados);
 
 //8. Agrupamento por Propriedade
 //Em vendas = [{ cliente, total }, ...], use reduce para gerar um objeto onde cada chave é um cliente e o valor é a soma de todos os seus total.
+
+const vendas = [
+    {cliente: "João", total: 520},
+    {cliente: "José", total: 840},
+    {cliente: "Jaques", total: 975},
+    {cliente: "Jaques", total: 745}
+];
+
+const resumoVendas = vendas.reduce((acumulador, venda) =>{
+    if (!acumulador[venda.cliente]){
+        acumulador[venda.cliente] = 0;
+    }
+    acumulador[venda.cliente] += venda.total;
+    return acumulador;
+}, {})
+
+console.log(resumoVendas);
+
+//Conversão Entre Formatos
+// 9. Escreva duas funções:
+//paresParaObjeto(pares) recebe um array de pares [ [chave,valor], … ] e retorna o objeto equivalente.
+//objetoParaPares(obj) faz o inverso, retornando um array de pares.
+
+function paresParaObjeto(pares){
+    return Object.fromEntries(pares);
+}
+function objetoParaPares(obj){
+    return Object.entries(obj);
+}
+
+const pares = [["nome", "Denize"], ["idade", 33], ["cidade", "Porto Alegre"]];
+const objeto = paresParaObjeto(pares);
+console.log(objeto);
+
+const arrayDePares = objetoParaPares(objeto);
+console.log (arrayDePares);
